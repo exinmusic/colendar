@@ -1,6 +1,5 @@
 from bs4 import BeautifulSoup
 import requests
-from pprint import pprint
 
 class Colendar:
 	"""
@@ -18,7 +17,9 @@ class Colendar:
 		return requests.get(link, headers={'User-Agent': self.user_agent})
 
 	# Filled hrefs with 25 post links and next-page link.
-	def get_links(self):
+	def get_links(self, autostep=True):
+		if autostep == False:
+			self.next_page = ''
 		if not self.next_page:
 			r = self.open_page(self.base)
 		elif self.next_page == 'no_next':
@@ -33,15 +34,18 @@ class Colendar:
 		except:
 			self.next_page = 'no_next'
 
+	def open_post(self, link):
+		r = self.open_page(link)
+		soup = BeautifulSoup(r.text, features="html.parser")
+		paragraphs = soup.find('div', {'class': 'entry'}).find('div', {'class': 'md'}).find_all('p')
+		post = '\n'.join([ p.text for p in paragraphs ])
+		return {'name':soup.find('p', {'class': 'title'}).a.text, 'text': post}
+
 	def get_posts(self):
 		counter = 1
 		for ref in self.hrefs:
-			r = self.open_page(ref)
-			soup = BeautifulSoup(r.text, features="html.parser")
 			print(f'{counter}/25', end="\r", flush=True)
-			paragraphs = soup.find('div', {'class': 'entry'}).find('div', {'class': 'md'}).find_all('p')
-			post = '\n'.join([ p.text for p in paragraphs ])
-			self.posts.append((soup.find('p', {'class': 'title'}).a.text, post))
+			self.posts.append(open_post(ref))
 			counter +=1
 	
 	def scrape(self, limit=0):
