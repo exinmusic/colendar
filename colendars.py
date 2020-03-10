@@ -37,15 +37,21 @@ class Colendar:
 	def open_post(self, link):
 		r = self.open_page(link)
 		soup = BeautifulSoup(r.text, features="html.parser")
-		paragraphs = soup.find('div', {'class': 'entry'}).find('div', {'class': 'md'}).find_all('p')
-		post = '\n'.join([ p.text for p in paragraphs ])
-		return {'name':soup.find('p', {'class': 'title'}).a.text, 'text': post}
+		title = soup.find('p', {'class': 'title'}).a.text
+		try:
+			paragraphs = soup.find('div', {'class': 'entry'}).find('div', {'class': 'md'}).find_all('p')
+			post = '\n'.join([ p.text for p in paragraphs ])
+		except:
+			post = title
+		return {'name': title, 'text': post}
 
-	def get_posts(self):
+	def get_posts(self, clear=False):
 		counter = 1
+		if clear:
+			self.posts = []
 		for ref in self.hrefs:
 			print(f'{counter}/25', end="\r", flush=True)
-			self.posts.append(open_post(ref))
+			self.posts.append(self.open_post(ref))
 			counter +=1
 	
 	def scrape(self, limit=0):
