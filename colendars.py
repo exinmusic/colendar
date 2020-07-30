@@ -61,7 +61,7 @@ class Colendar:
 				l = self.get_links()
 				if l == "no_next":
 					break
-				print(f'Page {counter}')
+				print('Page '+str(counter))
 				self.get_posts()
 				counter+=1
 		else:
@@ -69,7 +69,7 @@ class Colendar:
 				l = self.get_links()
 				if l == "no_next":
 					break
-				print(f'Page {counter}')
+				print('Page '+str(counter))
 				self.get_posts()
 				counter+=1
 		print("Done!")
