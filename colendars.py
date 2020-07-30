@@ -7,7 +7,7 @@ class Colendar:
 	"""
 	def __init__(self, subreddit):
 		self.user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
-		self.base = f'https://old.reddit.com/r/{subreddit}/new/'
+		self.base = 'https://old.reddit.com/r/'+subreddit+'/new/'
 		self.next_page = ''
 		self.hrefs = []
 		self.posts = []
@@ -50,7 +50,7 @@ class Colendar:
 		if clear:
 			self.posts = []
 		for ref in self.hrefs:
-			print(f'{counter}/25', end="\r", flush=True)
+			print(str(counter)+'/25', end="\r", flush=True)
 			self.posts.append(self.open_post(ref))
 			counter +=1
 	
