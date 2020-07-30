@@ -4,8 +4,8 @@ import requests
 from time import sleep
 
 c=Colendar('copypasta')
-api_url = 'https://www.publicpasta.com/api/pastas/'
-headers = {'Authorization': 'Token abf63274994a88eb4425fab5d195c5200abe4c68'}
+api_url = 'http://www.publicpasta.com/api/pastas/'
+headers = {'Authorization': 'Token 9737808d946a0118b3b03d726ee0b03fced11b47'}
 
 def crawler():
 	counter = 1
